@@ -1,9 +1,10 @@
 import streamlit as st
 import time
 import json
-from prompt import Prompt
-from auth import get_access_token
+from prompt import Prompt, get_access_token
 
+
+API_KEY = st.secrets["IBM_CLOUD_API_KEY"]
 PROJECT_ID = st.secrets["WATSONX_PROJECT_ID"]
 MODEL_ID = "google/flan-ul2"
 parameters = {
@@ -19,16 +20,16 @@ parameters = {
 
 
 def query_to_watson(prompt_input):
-    access_token = get_access_token()
+    access_token = get_access_token(API_KEY)
     watson_prompt = Prompt(access_token, PROJECT_ID)
     response = watson_prompt.generate(prompt_input, MODEL_ID, parameters)
     return response
 
 
-st.title("My WatsonX Text Generator")
-st.markdown(f"This Chatbot uses the following parameters along with `{MODEL_ID}`")
+st.title("My WatsonX Prompt Generator")
+st.markdown(f"This text generator uses the following parameters along with a LLM model, `{MODEL_ID}`")
 st.code(f"{json.dumps(parameters, indent=2)}")
-st.markdown("As the models are not for a conversation completion, the prompt would take each input as a new inquery.")
+st.markdown("As the models are not for a conversation completion, the prompt would take each input as a separate inquery.")
 st.divider()
 
 

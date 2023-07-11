@@ -1,4 +1,12 @@
 import requests
+from ibm_cloud_sdk_core import IAMTokenManager
+
+
+def get_access_token(api_key):
+    return IAMTokenManager(
+        apikey=api_key,
+        url="https://iam.cloud.ibm.com/identity/token"
+    ).get_token()
 
 
 class Prompt:
